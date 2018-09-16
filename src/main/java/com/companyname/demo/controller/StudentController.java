@@ -1,5 +1,7 @@
 package com.companyname.demo.controller;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +38,35 @@ public StudentEntity getStudentById(@PathVariable(value="id")Long studentId) {
 public void deleteStudent(@PathVariable(value="id")Long studentId) {
 	 studentRepository.deleteById(studentId);
 }
+@PutMapping("/student/{id}")
+public Optional<StudentEntity> UpdateStudent(@Valid @RequestBody StudentEntity student,@PathVariable(value="id")Long studentId) {
+   return studentRepository.findById(studentId)
+	   .map(student_entity->{
+	   student_entity.setName(student.getName());
+	   student_entity.setEmail(student.getEmail());
+	   student_entity.setId((student.getId());
+	return studentRepository.save(student);
+	)}.orElseGet(()->){
+			   )};
+	   
+   
+		   
+}
+
+//@PutMapping("/student/{id}")
+//public StudentEntity(@RequestBody Employee newEmployee, @PathVariable Long id) {
+//
+//	return repository.findById(id)
+//		.map(employee -> {
+//			employee.setName(newEmployee.getName());
+//			employee.setRole(newEmployee.getRole());
+//			return repository.save(employee);
+//		})
+//		.orElseGet(() -> {
+//			newEmployee.setId(id);
+//			return repository.save(newEmployee);
+//		});
+//}
 	}
 	
 
