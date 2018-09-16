@@ -38,20 +38,20 @@ public StudentEntity getStudentById(@PathVariable(value="id")Long studentId) {
 public void deleteStudent(@PathVariable(value="id")Long studentId) {
 	 studentRepository.deleteById(studentId);
 }
-@PutMapping("/student/{id}")
-public Optional<StudentEntity> UpdateStudent(@Valid @RequestBody StudentEntity student,@PathVariable(value="id")Long studentId) {
-   return studentRepository.findById(studentId)
-	   .map(student_entity->{
-	   student_entity.setName(student.getName());
-	   student_entity.setEmail(student.getEmail());
-	   student_entity.setId((student.getId());
-	return studentRepository.save(student);
-	)}.orElseGet(()->){
-			   )};
-	   
-   
-		   
-}
+//@PutMapping("/student/{id}")
+//public Optional<StudentEntity> UpdateStudent(@Valid @RequestBody StudentEntity student,@PathVariable(value="id")Long studentId) {
+//   return studentRepository.findById(studentId)
+//	   .map(student_entity->{
+//	   student_entity.setName(student.getName());
+//	   student_entity.setEmail(student.getEmail());
+//	   student_entity.setId((student.getId());
+//	return studentRepository.save(student);
+//	)}.orElseGet(()->){
+//			   )};
+//	   
+//   
+//		   
+//}
 
 //@PutMapping("/student/{id}")
 //public StudentEntity(@RequestBody Employee newEmployee, @PathVariable Long id) {
@@ -67,6 +67,16 @@ public Optional<StudentEntity> UpdateStudent(@Valid @RequestBody StudentEntity s
 //			return repository.save(newEmployee);
 //		});
 //}
+@PutMapping("/student/{id}")
+public ResponseEntity<Object> updateStudent1(@RequestBody StudentEntity student,@PathVariable(value="id") Long StudentId) {
+    Optional<StudentEntity> student1= studentRepository.findById(StudentId);
+    if (!student1.isPresent()) {
+        return ResponseEntity.badRequest().build();
+    }
+    student.setId(StudentId);
+    StudentEntity studentUpdated =studentRepository.save(student);
+    return ResponseEntity.ok().body(studentUpdated);
+}
 	}
 	
 
